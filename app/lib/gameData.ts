@@ -192,7 +192,7 @@ export const SPECIES: SingleCardData[] = [
   },
 ];
 
-export const HISTORY: SingleCardData[] = [
+export const HISTORIES: SingleCardData[] = [
   {
     name: "Chef",
     symbol: "⚗",
@@ -309,5 +309,32 @@ export const HISTORY: SingleCardData[] = [
     symbol: "⛩",
     flavourText:
       "Skilled in creating and expressing ideas through various artistic mediums.",
+  },
+];
+
+export const CAREERS: SingleCardData[] = [
+  {
+    name: "Soldier",
+    symbol: "⚔",
+    flavourText:
+      "Skilled in designing, building, and maintaining technology and machinery.",
+  },
+  {
+    name: "Operator",
+    symbol: "✦",
+    flavourText:
+      "Skilled in operating and navigating new technologies, vehicles, and machinery.",
+  },
+  {
+    name: "Medic",
+    symbol: "♔",
+    flavourText:
+      "Skilled in providing medical care and support, specializing in healing and first aid.",
+  },
+  {
+    name: "Pilot",
+    symbol: "⎈",
+    flavourText:
+      "Skilled in operating and navigating spacecraft and other vehicles.",
   },
 ];
