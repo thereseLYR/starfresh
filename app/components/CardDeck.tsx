@@ -3,8 +3,68 @@ import { useEffect, useRef, useState } from "react";
 export interface DeckCard {
   name: string;
   flavourText: string;
-  detail: React.ReactNode;
   symbol?: string;
+  imageUrl?: string;
+  body?: string;
+}
+
+// ── Detail panel renderers ────────────────────────────────────────────────────
+
+function DetailWithSymbol({ card }: { card: DeckCard }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-start gap-4">
+        {card.symbol && (
+          <span className="text-3xl text-gold/60 shrink-0 mt-0.5">
+            {card.symbol}
+          </span>
+        )}
+        <div>
+          <p className="text-gold font-semibold text-sm">{card.name}</p>
+          <p className="text-gold/55 text-sm italic">{card.flavourText}</p>
+        </div>
+      </div>
+      {card.body && (
+        <p className="text-gold/55 text-xs leading-relaxed whitespace-pre-line border-t border-gold/15 pt-3">
+          {card.body}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function DetailWithImage({ card }: { card: DeckCard }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col md:flex-row gap-4">
+        <img
+          src={card.imageUrl}
+          alt={card.name}
+          className="w-full md:w-1/2 object-cover rounded border border-gold/20 mx-auto md:mx-0 md:shrink-0"
+        />
+        <div className="flex flex-col justify-center gap-1">
+          <div className="mb-3">
+            <p className="text-gold font-semibold text-sm">{card.name}</p>
+            <p className="text-gold/55 text-sm italic">{card.flavourText}</p>
+          </div>
+
+          {card.body && (
+            <p className="text-gold/55 text-xs leading-relaxed whitespace-pre-line border-t border-gold/15 pt-3">
+              {card.body}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CardDetail({ card }: { card: DeckCard }) {
+  return card.imageUrl && !card.symbol ? (
+    <DetailWithImage card={card} />
+  ) : (
+    <DetailWithSymbol card={card} />
+  );
 }
 
 interface CardDeckProps {
@@ -65,8 +125,6 @@ export default function CardDeck({ cards, selected, onSelect }: CardDeckProps) {
       {cards.map((card, i) => {
         const isSelected = card.name === selected;
 
-        console.log("card:", card);
-
         return (
           <div key={card.name} className="contents">
             {/* ── Card ── */}
@@ -84,30 +142,51 @@ export default function CardDeck({ cards, selected, onSelect }: CardDeckProps) {
               {/* Default background */}
               <div className="absolute inset-0 bg-dark-green" />
 
-              {/* Hover/selected fill — slides in from left */}
-              <div
-                className={`absolute inset-0 bg-panel origin-left transition-transform ${
-                  isSelected
-                    ? "scale-x-100"
-                    : "scale-x-0 group-hover:scale-x-100"
-                }`}
-                style={{ transitionDuration: "350ms" }}
-              />
+              {/* Image — full-bleed, fades up on hover/select */}
+              {card.imageUrl && (
+                <img
+                  src={card.imageUrl}
+                  alt=""
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                    isSelected
+                      ? "opacity-35"
+                      : "opacity-15 group-hover:opacity-30"
+                  }`}
+                />
+              )}
+
+              {/* Hover/selected fill — slides in from left (skipped when image is present) */}
+              {!card.imageUrl && (
+                <div
+                  className={`absolute inset-0 bg-panel origin-left transition-transform ${
+                    isSelected
+                      ? "scale-x-100"
+                      : "scale-x-0 group-hover:scale-x-100"
+                  }`}
+                  style={{ transitionDuration: "350ms" }}
+                />
+              )}
+
+              {/* Bottom gradient scrim — only when image is present */}
+              {card.imageUrl && (
+                <div className="absolute inset-x-0 bottom-0 h-3/5 bg-linear-to-t from-dark-green via-dark-green/80 to-transparent" />
+              )}
 
               {/* Card content */}
               <div className="relative z-10 flex flex-col h-full p-4">
                 {/* Top pip */}
                 <div
-                  className={`text-[10px] transition-colors duration-300 ${
-                    isSelected
-                      ? "text-gold/50"
-                      : "text-gold/15 group-hover:text-gold/40"
-                  }`}
+                  className={`text-[10px] transition-colors duration-300 
+                    items-center justify-center${
+                      isSelected
+                        ? "text-gold/50"
+                        : "text-gold/15 group-hover:text-gold/40"
+                    }`}
                 >
                   ◆
                 </div>
 
-                {/* Name — always visible, centered */}
+                {/* Name — always centred */}
                 <div className="flex-1 flex items-center justify-center">
                   <span
                     className={`text-sm font-semibold text-center leading-snug transition-colors duration-200 ${
@@ -153,7 +232,7 @@ export default function CardDeck({ cards, selected, onSelect }: CardDeckProps) {
             {i === insertAfterIdx && selectedCard && (
               <div className="w-full overflow-hidden animate-expand-down">
                 <div className="mt-1 mb-1 p-5 rounded-lg border border-gold/30 bg-panel/70">
-                  {selectedCard.detail}
+                  <CardDetail card={selectedCard} />
                 </div>
               </div>
             )}

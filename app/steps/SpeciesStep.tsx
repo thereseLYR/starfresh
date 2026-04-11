@@ -1,17 +1,17 @@
-import { useCharacter } from '@/app/context/CharacterContext'
+import CardDeck, { DeckCard } from '@/app/components/CardDeck'
 import StepIntro from '@/app/components/StepIntro'
-import SelectionGrid, { SelectionItem } from '@/app/components/SelectionGrid'
+import { useCharacter } from '@/app/context/CharacterContext'
+import { SingleCardData, SPECIES } from '@/app/lib/gameData'
 
-export const SPECIES: SelectionItem[] = [
-  { name: 'Human',      desc: 'Adaptable and ambitious, humans shape the world through sheer will.' },
-  { name: 'Elf',        desc: 'Ancient and graceful, elves carry centuries of memory in their eyes.' },
-  { name: 'Dwarf',      desc: 'Stone-born and steadfast, dwarves endure where others crumble.' },
-  { name: 'Orc',        desc: 'Fierce and proud, orcs carry the honor of their ancestors into battle.' },
-  { name: 'Halfling',   desc: 'Small in stature, vast in luck — halflings find fortune where none exists.' },
-  { name: 'Dragonborn', desc: 'Heirs to an age of dragons, their bloodline still crackles with power.' },
-  { name: 'Tiefling',   desc: 'Marked by infernal heritage, they carry darkness as both curse and weapon.' },
-  { name: 'Gnome',      desc: 'Curious and inventive, gnomes unravel the mysteries others overlook.' },
-]
+// ── Card transform ────────────────────────────────────────────────────────────
+
+function toCard({ name, flavourText, imageUrl, body }: SingleCardData): DeckCard {
+  return { name, flavourText, imageUrl, body };
+}
+
+const DECK_CARDS: DeckCard[] = SPECIES.map(toCard)
+
+// ── Step component ────────────────────────────────────────────────────────────
 
 export default function SpeciesStep() {
   const { data, update } = useCharacter()
@@ -19,12 +19,13 @@ export default function SpeciesStep() {
   return (
     <>
       <StepIntro>
-        Each species carries unique traits, histories, and strengths that define your place in the world. Who are you among the peoples of this age?
+        Each species carries unique traits, histories, and strengths that define
+        your place in the world. Who are you among the peoples of this age?
       </StepIntro>
-      <SelectionGrid
-        items={SPECIES}
+      <CardDeck
+        cards={DECK_CARDS}
         selected={data.species}
-        onSelect={v => update({ species: v })}
+        onSelect={(v) => update({ species: v ?? '' })}
       />
     </>
   )

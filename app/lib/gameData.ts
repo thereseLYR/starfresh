@@ -1,11 +1,12 @@
-export type ConstellationData = {
+export type SingleCardData = {
   name: string;
   flavourText: string;
-  symbol: string;
+  symbol?: string;
+  imageUrl?: string;
   body?: string;
 };
 
-export const CONSTELLATIONS: ConstellationData[] = [
+export const CONSTELLATIONS: SingleCardData[] = [
   {
     name: "The Fool",
     symbol: "✦",
@@ -137,5 +138,176 @@ export const CONSTELLATIONS: ConstellationData[] = [
     symbol: "🌍",
     flavourText: "All things connect",
     body: 'Minor: SS +1 · SA +1\nMajor: Gain skill "Universal Harmony" at level 5\nIn Domain: SS +2 · SA +2\nIn Opposition: SS +0 · SA +0',
+  },
+];
+
+export const SPECIES: SingleCardData[] = [
+  {
+    name: "Terau",
+    imageUrl: "/species-images/species-terau.png",
+    flavourText: "Children of Old Earth, scattered across the stars",
+    body: 'Faction: —\nEffects: MR +1 · SR +1 · Gain skill "Exchange Student"',
+  },
+  {
+    name: "Ranau",
+    imageUrl: "/species-images/species-ranau.png",
+    flavourText: "Warriors of scale and claw, bound by honour",
+    body: 'Faction: —\nEffects: Defense +2 · Gain skill "Stake on Honour"',
+  },
+  {
+    name: "Kilerau",
+    imageUrl: "/species-images/species-kilerau.png",
+    flavourText: "Tri-legged innovators with compound wisdom",
+    body: 'Faction: —\nEffects: PR -2 · Perceive +2 · Gain skill "Perfect Recall"',
+  },
+  {
+    name: "Yvetrau",
+    imageUrl: "/species-images/species-yvetrau-white.png",
+    flavourText: "Six-limbed philosophers of the stellar winds",
+    body: 'Faction: —\nEffects: PR +1 · MR +1 · Gain skill "Sixth Sense"',
+  },
+  {
+    name: "Gilean",
+    imageUrl: "/species-images/species-gilean.png",
+    flavourText: "The many-armed architects of harmony",
+    body: 'Faction: —\nEffects: SS +1 · MS +1 · Gain skill "Vocal Mimicry" · Gain skill "Solarsynthesis"',
+  },
+  {
+    name: "Wurefon",
+    imageUrl: "/species-images/species-wurefon.png",
+    flavourText: "Regenerative masters of adaptation",
+    body: 'Faction: —\nEffects: SA +1 · Gain skill "Adapt" · Gain skill "Amphibious"',
+  },
+  {
+    name: "Qutalon",
+    imageUrl: "/species-images/species-qutalon.png",
+    flavourText: "Shell-armored observers of the infinite",
+    body: 'Faction: —\nEffects: PR +1 · MA +1 · Gain skill "Practiced Modder" · Gain skill "Amphibious"',
+  },
+  {
+    name: "Seeledon",
+    imageUrl: "/species-images/species-seeledon.png",
+    flavourText: "Predator-born guardians of the deep",
+    body: 'Faction: —\nEffects: MR +1 · SR +1 · Gain skill "Pack Tactics" · Gain skill "Amphibious"',
+  },
+];
+
+export const HISTORY: SingleCardData[] = [
+  {
+    name: "Chef",
+    symbol: "⚗",
+    flavourText:
+      "Specializes in preparing meals and maintaining the culinary arts.",
+  },
+  {
+    name: "Soldier",
+    symbol: "⚔",
+    flavourText:
+      "Skilled in designing, building, and maintaining technology and machinery.",
+  },
+  {
+    name: "Researcher",
+    symbol: "◈",
+    flavourText:
+      "Dedicates themselves to the pursuit of knowledge and scientific discovery.",
+  },
+  {
+    name: "Performer",
+    symbol: "♜",
+    flavourText:
+      "Expresses creativity and entertains others through various artistic mediums.",
+  },
+  {
+    name: "Miner",
+    symbol: "⛏",
+    flavourText: "Skilled in extracting and processing minerals and resources.",
+  },
+  {
+    name: "Diplomat",
+    symbol: "⚖",
+    flavourText:
+      "Skilled in negotiating and maintaining relationships between different parties.",
+  },
+  {
+    name: "Engineer",
+    symbol: "⚙",
+    flavourText:
+      "Skilled in designing, building, and maintaining technology and machinery.",
+  },
+  {
+    name: "Counsellor",
+    symbol: "⟁",
+    flavourText: "Skilled in providing guidance and support to others.",
+  },
+  {
+    name: "Monk",
+    symbol: "◯",
+    flavourText:
+      "Dedicated to spiritual growth and enlightenment through discipline and meditation.",
+  },
+  {
+    name: "Athelete",
+    symbol: "⛤",
+    flavourText:
+      "Trained in physical fitness and competitive sports, excelling in strength, agility, and endurance.",
+  },
+  {
+    name: "Labourer",
+    symbol: "⚒",
+    flavourText:
+      "Skilled in manual work and physical tasks, contributing to construction, maintenance, and various forms of labor.",
+  },
+  {
+    name: "Scholar",
+    symbol: "★",
+    flavourText:
+      "Dedicated to academic pursuits and intellectual growth, specializing in research, analysis, and the pursuit of knowledge.",
+  },
+  {
+    name: "Merchant",
+    symbol: "⋈",
+    flavourText:
+      "Skilled in trade and commerce, facilitating the exchange of goods and services.",
+  },
+  {
+    name: "Explorer",
+    symbol: "✦",
+    flavourText:
+      "Skilled in navigating and exploring new territories and environments.",
+  },
+  {
+    name: "Leader",
+    symbol: "♔",
+    flavourText:
+      "Skilled in guiding and inspiring others, taking charge of groups and organizations.",
+  },
+  {
+    name: "Pilot",
+    symbol: "⎈",
+    flavourText:
+      "Skilled in operating and navigating spacecraft and other vehicles.",
+  },
+  {
+    name: "Philosopher",
+    symbol: "⤧",
+    flavourText:
+      "Dedicated to the pursuit of wisdom and understanding, contemplating the nature of existence and reality.",
+  },
+  {
+    name: "Mystic",
+    symbol: "✶",
+    flavourText:
+      "Dedicated to exploring the mysteries of the universe and the spiritual realm, seeking enlightenment and transcendence.",
+  },
+  {
+    name: "Detective",
+    symbol: "◉",
+    flavourText: "Skilled in investigating crimes and solving mysteries.",
+  },
+  {
+    name: "Artist",
+    symbol: "⛩",
+    flavourText:
+      "Skilled in creating and expressing ideas through various artistic mediums.",
   },
 ];

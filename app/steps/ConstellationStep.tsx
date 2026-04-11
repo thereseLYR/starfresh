@@ -1,39 +1,12 @@
 import CardDeck, { DeckCard } from "@/app/components/CardDeck";
 import StepIntro from "@/app/components/StepIntro";
 import { useCharacter } from "@/app/context/CharacterContext";
-import { ConstellationData, CONSTELLATIONS } from "../lib/gameData";
+import { CONSTELLATIONS, SingleCardData } from "../lib/gameData";
 
 // ── Card transform ────────────────────────────────────────────────────────────
 
-function toCard({
-  name,
-  flavourText,
-  symbol,
-  body,
-}: ConstellationData): DeckCard {
-  return {
-    name,
-    flavourText,
-    symbol,
-    detail: (
-      <div className="flex flex-col gap-3">
-        <div className="flex items-start gap-4">
-          <span className="text-3xl text-gold/60 shrink-0 mt-0.5">
-            {symbol}
-          </span>
-          <div>
-            <p className="text-gold font-semibold text-sm">{name}</p>
-            <p className="text-gold/55 text-sm italic">{flavourText}</p>
-          </div>
-        </div>
-        {body && (
-          <p className="text-gold/55 text-xs leading-relaxed whitespace-pre-line border-t border-gold/15 pt-3">
-            {body}
-          </p>
-        )}
-      </div>
-    ),
-  };
+function toCard({ name, flavourText, symbol, body }: SingleCardData): DeckCard {
+  return { name, flavourText, symbol, body };
 }
 
 const DECK_CARDS: DeckCard[] = CONSTELLATIONS.map(toCard);
