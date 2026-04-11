@@ -60,7 +60,7 @@ export default function ReviewStep() {
       <div className="mt-10 pt-6 border-t border-gold/20">
         <button
           onClick={() => window.print()}
-          className="w-full py-4 border border-gold text-gold font-semibold tracking-[0.2em] uppercase text-sm hover:bg-gold hover:text-dark-green transition-all rounded"
+          className="btn-gold w-full py-4 border border-gold text-gold font-semibold tracking-[0.2em] uppercase text-sm rounded"
         >
           ✦ &nbsp;Export as PDF&nbsp; ✦
         </button>
