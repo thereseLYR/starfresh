@@ -1,31 +1,61 @@
-import { useCharacter } from '@/app/context/CharacterContext'
-import StepIntro from '@/app/components/StepIntro'
-import SelectionGrid, { SelectionItem } from '@/app/components/SelectionGrid'
+import CardDeck, { DeckCard } from "@/app/components/CardDeck";
+import StepIntro from "@/app/components/StepIntro";
+import { useCharacter } from "@/app/context/CharacterContext";
+import { ConstellationData, CONSTELLATIONS } from "../lib/gameData";
 
-export const CONSTELLATIONS: SelectionItem[] = [
-  { name: 'The Wanderer',     symbol: '✦', desc: 'Born under wandering stars, destined for distant horizons.' },
-  { name: "Dragon's Maw",     symbol: '◈', desc: 'Forged in celestial fire, bearing ancient draconic power.' },
-  { name: 'Twin Swords',      symbol: '⚔', desc: 'Guided by blades of light, poised between war and peace.' },
-  { name: 'The Ancient Tree', symbol: '⟁', desc: 'Rooted in the cosmos, growing through the ages unchanged.' },
-  { name: "Moon's Eye",       symbol: '◯', desc: 'Watched over by the silver eye, gifted with hidden sight.' },
-  { name: "Sailor's Star",    symbol: '★', desc: 'A beacon in the dark, drawn always toward uncharted waters.' },
-  { name: 'The Phoenix',      symbol: '⋈', desc: 'Death is only a doorway — you have walked through it before.' },
-  { name: 'Forgotten King',   symbol: '♔', desc: 'A crown lost to time, power waiting to be reclaimed.' },
-]
+// ── Card transform ────────────────────────────────────────────────────────────
+
+function toCard({
+  name,
+  flavourText,
+  symbol,
+  body,
+}: ConstellationData): DeckCard {
+  return {
+    name,
+    flavourText,
+    symbol,
+    detail: (
+      <div className="flex flex-col gap-3">
+        <div className="flex items-start gap-4">
+          <span className="text-3xl text-gold/60 shrink-0 mt-0.5">
+            {symbol}
+          </span>
+          <div>
+            <p className="text-gold font-semibold text-sm">{name}</p>
+            <p className="text-gold/55 text-sm italic">{flavourText}</p>
+          </div>
+        </div>
+        {body && (
+          <p className="text-gold/55 text-xs leading-relaxed whitespace-pre-line border-t border-gold/15 pt-3">
+            {body}
+          </p>
+        )}
+      </div>
+    ),
+  };
+}
+
+const DECK_CARDS: DeckCard[] = CONSTELLATIONS.map(toCard);
+
+// ── Step component ────────────────────────────────────────────────────────────
 
 export default function ConstellationStep() {
-  const { data, update } = useCharacter()
+  const { data, update } = useCharacter();
 
   return (
     <>
       <StepIntro>
-        Your birth constellation shapes your innate gifts and the cosmic forces aligned with your destiny. Choose the star pattern that resonates with your soul.
+        Your birth constellation shapes your innate gifts and the cosmic forces
+        aligned with your destiny. Choose the star pattern that resonates with
+        your soul.
       </StepIntro>
-      <SelectionGrid
-        items={CONSTELLATIONS}
+
+      <CardDeck
+        cards={DECK_CARDS}
         selected={data.constellation}
-        onSelect={v => update({ constellation: v })}
+        onSelect={(v) => update({ constellation: v ?? "" })}
       />
     </>
-  )
+  );
 }
