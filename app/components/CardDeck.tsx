@@ -151,6 +151,7 @@ export default function CardDeck({ cards, selected, onSelect }: CardDeckProps) {
                   src={card.imageUrl}
                   alt=""
                   fill
+                  sizes="144px"
                   className={`object-cover transition-opacity duration-500 ${
                     isSelected
                       ? "opacity-35"
@@ -177,7 +178,7 @@ export default function CardDeck({ cards, selected, onSelect }: CardDeckProps) {
               )}
 
               {/* Card content */}
-              <div className="relative z-10 flex flex-col h-full p-4">
+              <div className="relative z-2 flex flex-col h-full p-4">
                 {/* Top pip */}
                 <div
                   className={`text-[10px] transition-colors duration-300 
