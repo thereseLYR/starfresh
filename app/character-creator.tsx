@@ -72,7 +72,7 @@ function CharacterCreatorShell() {
             <button
               onClick={() => {
                 setStep((s) => s - 1);
-                window.scrollTo(0, 0);
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               disabled={step === 0 || !canNavigate}
               className="bg-transparent px-5 py-2 border border-gold/35 text-gold/80 text-sm rounded hover:border-gold hover:text-gold disabled:opacity-20 disabled:cursor-not-allowed transition-all"
@@ -88,7 +88,7 @@ function CharacterCreatorShell() {
               <button
                 onClick={() => {
                   setStep((s) => s + 1);
-                  window.scrollTo(0, 0);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 disabled={!canNavigate}
                 className="btn-gold px-5 py-2 border border-gold text-gold text-sm rounded disabled:opacity-20 disabled:cursor-not-allowed"

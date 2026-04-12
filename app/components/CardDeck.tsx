@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 export interface DeckCard {
@@ -37,10 +38,12 @@ function DetailWithImage({ card }: { card: DeckCard }) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col md:flex-row gap-4">
-        <img
-          src={card.imageUrl}
+        <Image
+          src={card.imageUrl!}
           alt={card.name}
-          className="w-full md:w-1/2 object-cover rounded border border-gold/20 mx-auto md:mx-0 md:shrink-0"
+          width={485}
+          height={315}
+          className="w-full md:w-1/2 rounded border border-gold/20 mx-auto md:mx-0 md:shrink-0 h-auto object-cover"
         />
         <div className="flex flex-col justify-center gap-1">
           <div className="mb-3">
@@ -144,10 +147,11 @@ export default function CardDeck({ cards, selected, onSelect }: CardDeckProps) {
 
               {/* Image — full-bleed, fades up on hover/select */}
               {card.imageUrl && (
-                <img
+                <Image
                   src={card.imageUrl}
                   alt=""
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                  fill
+                  className={`object-cover transition-opacity duration-500 ${
                     isSelected
                       ? "opacity-35"
                       : "opacity-15 group-hover:opacity-30"
