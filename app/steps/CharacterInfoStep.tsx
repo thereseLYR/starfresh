@@ -17,7 +17,7 @@ export default function CharacterInfoStep() {
           value={data.name}
           onChange={e => update({ name: e.target.value })}
           placeholder="Enter your character's name…"
-          className="w-full bg-transparent border border-gold/30 rounded px-4 py-3 text-gold placeholder-gold/25 focus:outline-none focus:border-gold transition-colors"
+          className="w-full bg-dark-green border border-gold/30 rounded px-4 py-3 text-gold placeholder-gold/45 focus:outline-none focus:border-gold transition-colors"
         />
       </div>
       <div>
@@ -46,7 +46,7 @@ export default function CharacterInfoStep() {
           onChange={e => update({ age: e.target.value })}
           placeholder="Character age…"
           min={1}
-          className="w-full bg-transparent border border-gold/30 rounded px-4 py-3 text-gold placeholder-gold/25 focus:outline-none focus:border-gold transition-colors"
+          className="w-full bg-dark-green border border-gold/30 rounded px-4 py-3 text-gold placeholder-gold/45 focus:outline-none focus:border-gold transition-colors"
         />
       </div>
       <div>
@@ -56,7 +56,7 @@ export default function CharacterInfoStep() {
           onChange={e => update({ appearance: e.target.value })}
           placeholder="Describe your character's appearance, attire, and distinguishing features…"
           rows={4}
-          className="w-full bg-transparent border border-gold/30 rounded px-4 py-3 text-gold placeholder-gold/25 focus:outline-none focus:border-gold transition-colors resize-none"
+          className="w-full bg-dark-green border border-gold/30 rounded px-4 py-3 text-gold placeholder-gold/45 focus:outline-none focus:border-gold transition-colors resize-none"
         />
       </div>
     </div>

@@ -1,14 +1,11 @@
+import GoldDivider from "@/app/components/GoldDivider";
 import Link from "next/link";
 
 export default function LandingScreen({ onStart }: { onStart: () => void }) {
   return (
     <div className="min-h-screen bg-dark-green flex flex-col items-center justify-center px-6">
       <div className="text-center max-w-xl">
-        <div className="flex items-center justify-center gap-3">
-          <span className="block h-px w-16 bg-gold" />
-          <span className="text-gold">◆</span>
-          <span className="block h-px w-16 bg-gold" />
-        </div>
+        <GoldDivider muted />
 
         {/* text and buttons */}
         <div className="flex flex-col my-10 gap-8">
@@ -42,11 +39,7 @@ export default function LandingScreen({ onStart }: { onStart: () => void }) {
           </button>
         </div>
 
-        <div className="flex items-center justify-center gap-3">
-          <span className="block h-px w-16 bg-gold" />
-          <span className="text-gold">◆</span>
-          <span className="block h-px w-16 bg-gold" />
-        </div>
+        <GoldDivider muted />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import GoldDivider from "@/app/components/GoldDivider";
 import {
   CharacterProvider,
   useCharacter,
@@ -8,9 +9,6 @@ import LandingScreen from "@/app/landing";
 import { STEPS, isStepComplete } from "@/app/lib/types";
 import { useState } from "react";
 
-const ENFORCE_VALIDATION =
-  process.env.NEXT_PUBLIC_ENFORCE_VALIDATION === "true";
-
 import CareerStep from "@/app/steps/CareerStep";
 import CharacterInfoStep from "@/app/steps/CharacterInfoStep";
 import ConstellationStep from "@/app/steps/ConstellationStep";
@@ -18,6 +16,9 @@ import HistoryStep from "@/app/steps/HistoryStep";
 import ReviewStep from "@/app/steps/ReviewStep";
 import SpeciesStep from "@/app/steps/SpeciesStep";
 import StatsStep from "@/app/steps/StatsStep";
+
+const ENFORCE_VALIDATION =
+  process.env.NEXT_PUBLIC_ENFORCE_VALIDATION === "true";
 
 function renderStep(step: number) {
   switch (step) {
@@ -47,16 +48,14 @@ function CharacterCreatorShell() {
     <div className="min-h-screen bg-dark-green flex flex-col">
       {/* ── Header ── */}
       <header className="shrink-0 pt-10 pb-7 px-6 text-center">
-        <p className="text-gold/35 text-xs tracking-[0.35em] uppercase mb-3">
+        <p className="text-gold/60 text-xs tracking-[0.35em] uppercase mb-3">
           Step {step + 1} of {STEPS.length}
         </p>
         <h1 className="text-gold text-3xl sm:text-4xl font-bold tracking-tight">
           {STEPS[step]}
         </h1>
-        <div className="mt-4 flex items-center justify-center gap-3 text-gold/25">
-          <span className="block h-px w-12 bg-gold/25" />
-          <span className="text-gold/50">◆</span>
-          <span className="block h-px w-12 bg-gold/25" />
+        <div className="mt-4">
+          <GoldDivider muted />
         </div>
       </header>
 
@@ -71,20 +70,26 @@ function CharacterCreatorShell() {
           {/* Navigation row */}
           <div className="flex items-center justify-between mb-6">
             <button
-              onClick={() => setStep((s) => s - 1)}
+              onClick={() => {
+                setStep((s) => s - 1);
+                window.scrollTo(0, 0);
+              }}
               disabled={step === 0 || !canNavigate}
-              className="px-5 py-2 border border-gold/35 text-gold/80 text-sm rounded hover:border-gold hover:text-gold disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+              className="bg-transparent px-5 py-2 border border-gold/35 text-gold/80 text-sm rounded hover:border-gold hover:text-gold disabled:opacity-20 disabled:cursor-not-allowed transition-all"
             >
               ← Back
             </button>
 
-            <span className="text-gold/25 text-xs text-center tracking-widest uppercase">
+            <span className="text-gold/65 text-xs text-center tracking-widest uppercase">
               {!isLast ? `Next: ${STEPS[step + 1]}` : "Finalize"}
             </span>
 
             {!isLast ? (
               <button
-                onClick={() => setStep((s) => s + 1)}
+                onClick={() => {
+                  setStep((s) => s + 1);
+                  window.scrollTo(0, 0);
+                }}
                 disabled={!canNavigate}
                 className="btn-gold px-5 py-2 border border-gold text-gold text-sm rounded disabled:opacity-20 disabled:cursor-not-allowed"
               >
@@ -112,7 +117,7 @@ function CharacterCreatorShell() {
                           ? "border-gold bg-gold text-dark-green"
                           : done
                             ? "border-gold/70 text-gold/70"
-                            : "border-gold/20 text-gold/20"
+                            : "border-gold/35 text-gold/55"
                       }`}
                     >
                       {done ? "✓" : i + 1}
@@ -122,8 +127,8 @@ function CharacterCreatorShell() {
                         current
                           ? "text-gold"
                           : done
-                            ? "text-gold/45"
-                            : "text-gold/18"
+                            ? "text-gold/60"
+                            : "text-gold/30"
                       }`}
                     >
                       {name}

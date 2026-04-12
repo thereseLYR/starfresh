@@ -21,11 +21,11 @@ function DetailWithSymbol({ card }: { card: DeckCard }) {
         )}
         <div>
           <p className="text-gold font-semibold text-sm">{card.name}</p>
-          <p className="text-gold/55 text-sm italic">{card.flavourText}</p>
+          <p className="text-gold/65 text-sm italic">{card.flavourText}</p>
         </div>
       </div>
       {card.body && (
-        <p className="text-gold/55 text-xs leading-relaxed whitespace-pre-line border-t border-gold/15 pt-3">
+        <p className="text-gold/65 text-xs leading-relaxed whitespace-pre-line border-t border-gold/15 pt-3">
           {card.body}
         </p>
       )}
@@ -45,11 +45,11 @@ function DetailWithImage({ card }: { card: DeckCard }) {
         <div className="flex flex-col justify-center gap-1">
           <div className="mb-3">
             <p className="text-gold font-semibold text-sm">{card.name}</p>
-            <p className="text-gold/55 text-sm italic">{card.flavourText}</p>
+            <p className="text-gold/65 text-sm italic">{card.flavourText}</p>
           </div>
 
           {card.body && (
-            <p className="text-gold/55 text-xs leading-relaxed whitespace-pre-line border-t border-gold/15 pt-3">
+            <p className="text-gold/65 text-xs leading-relaxed whitespace-pre-line border-t border-gold/15 pt-3">
               {card.body}
             </p>
           )}
@@ -209,7 +209,7 @@ export default function CardDeck({ cards, selected, onSelect }: CardDeckProps) {
                   style={{ transitionDelay: isSelected ? "0ms" : undefined }}
                 >
                   {card.flavourText && (
-                    <p className="text-gold/55 text-[11px] italic leading-snug text-center">
+                    <p className="text-gold/65 text-[11px] italic leading-snug text-center">
                       {card.flavourText}
                     </p>
                   )}
@@ -231,7 +231,7 @@ export default function CardDeck({ cards, selected, onSelect }: CardDeckProps) {
             {/* ── Detail panel — injected after the last card in the selected row ── */}
             {i === insertAfterIdx && selectedCard && (
               <div className="w-full overflow-hidden animate-expand-down">
-                <div className="mt-1 mb-1 p-5 rounded-lg border border-gold/30 bg-panel/70">
+                <div className="my-1 p-5 rounded-lg border border-gold/30 bg-panel/70">
                   <CardDetail card={selectedCard} />
                 </div>
               </div>

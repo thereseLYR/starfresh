@@ -40,7 +40,7 @@ export default function SelectionGrid({
                 >
                   {item.name}
                 </div>
-                <div className="text-gold/45 text-xs leading-relaxed">
+                <div className="text-gold/60 text-xs leading-relaxed">
                   {item.desc}
                 </div>
               </div>
