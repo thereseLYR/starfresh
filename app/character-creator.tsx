@@ -78,7 +78,7 @@ function CharacterCreatorShell() {
               ← Back
             </button>
 
-            <span className="text-gold/25 text-xs tracking-widest uppercase">
+            <span className="text-gold/25 text-xs text-center tracking-widest uppercase">
               {!isLast ? `Next: ${STEPS[step + 1]}` : "Finalize"}
             </span>
 
@@ -131,7 +131,7 @@ function CharacterCreatorShell() {
                   </button>
                   {i < STEPS.length - 1 && (
                     <div
-                      className={`h-px w-5 sm:w-8 mt-3.5 mx-1 shrink-0 transition-colors ${
+                      className={`h-px w-4 sm:w-8 mt-3.5 mx-1 shrink-0 transition-colors ${
                         done ? "bg-gold/45" : "bg-gold/12"
                       }`}
                     />
