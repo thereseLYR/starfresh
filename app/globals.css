@@ -3,6 +3,18 @@
 :root {
   --background: #0d1a0f;
   --foreground: #c9a84c;
+  --btn-gold-gradient: linear-gradient(to right, #dfc07a 50%, transparent 50%);
+  --btn-gold-back-gradient: linear-gradient(to left, #dfc07a 50%, transparent 50%);
+}
+
+html.light {
+  --background: #f5eedc;
+  --foreground: #1c2e1e;
+  --color-dark-green: #f5eedc;
+  --color-panel: #e8dfc8;
+  --color-gold: #8a6020;
+  --btn-gold-gradient: linear-gradient(to right, #8a6020 50%, transparent 50%);
+  --btn-gold-back-gradient: linear-gradient(to left, #8a6020 50%, transparent 50%);
 }
 
 @keyframes expand-down {
@@ -29,7 +41,7 @@
   }
 }
 
-@theme inline {
+@theme {
   --animate-fade-in: fade-in 0.9s ease-out 0.3s both;
   --animate-expand-down: expand-down 0.4s ease-out forwards;
   --color-background: var(--background);
@@ -58,7 +70,7 @@ h6 {
 
 .btn-gold {
   background-color: transparent;
-  background-image: linear-gradient(to right, #dfc07a 50%, transparent 50%);
+  background-image: var(--btn-gold-gradient);
   background-size: 200% 100%;
   background-position: 100% 0;
   transition:
@@ -68,7 +80,22 @@ h6 {
 
 .btn-gold:hover:not(:disabled) {
   background-position: 0% 0;
-  color: #0d1a0f;
+  color: var(--color-dark-green);
+}
+
+.btn-gold-back {
+  background-color: transparent;
+  background-image: var(--btn-gold-back-gradient);
+  background-size: 200% 100%;
+  background-position: 0% 0;
+  transition:
+    background-position 0.35s ease,
+    color 0.2s ease;
+}
+
+.btn-gold-back:hover:not(:disabled) {
+  background-position: 100% 0;
+  color: var(--color-dark-green);
 }
 
 @media print {

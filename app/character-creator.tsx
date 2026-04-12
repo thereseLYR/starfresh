@@ -2,6 +2,7 @@
 
 import CreatorFooter from "@/app/components/CreatorFooter";
 import GoldDivider from "@/app/components/GoldDivider";
+import ThemeToggle from "@/app/components/ThemeToggle";
 import {
   CharacterProvider,
   useCharacter,
@@ -47,7 +48,7 @@ function CharacterCreatorShell() {
   return (
     <div className="min-h-screen bg-dark-green flex flex-col">
       {/* ── Header ── */}
-      <header className="shrink-0 py-8 px-6 text-center">
+      <header className="relative shrink-0 py-8 px-6 text-center">
         <p className="text-gold/60 text-xs tracking-[0.35em] uppercase mb-3">
           Step {step + 1} of {STEPS.length}
         </p>
@@ -56,6 +57,9 @@ function CharacterCreatorShell() {
         </h1>
         <div className="mt-4">
           <GoldDivider muted />
+        </div>
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
         </div>
       </header>
 

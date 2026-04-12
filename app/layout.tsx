@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Sora } from "next/font/google";
+import { ThemeProvider } from "@/app/context/ThemeContext";
 import "./globals.css";
 
 const nobleType = localFont({
@@ -30,7 +31,9 @@ export default function RootLayout({
       lang="en"
       className={`${nobleType.variable} ${sora.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

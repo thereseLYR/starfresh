@@ -27,7 +27,7 @@ export default function CreatorFooter({
           <button
             onClick={onBack}
             disabled={step === 0 || !canNavigate}
-            className="bg-transparent px-5 py-2 border border-gold/35 text-gold/80 text-sm rounded hover:border-gold hover:text-gold disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+            className="btn-gold-back px-5 py-2 border border-gold text-gold text-sm rounded disabled:opacity-20 disabled:cursor-not-allowed"
           >
             ← Back
           </button>
