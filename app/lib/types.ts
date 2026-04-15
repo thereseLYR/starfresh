@@ -7,6 +7,8 @@ export type StatName =
   | "Charisma";
 export type Stats = Record<StatName, number>;
 
+export type NewSoulStatus = "organic" | "newsoul" | "";
+
 export type CharData = {
   name: string;
   pronouns: string;
@@ -14,6 +16,7 @@ export type CharData = {
   appearance: string;
   constellation: string;
   species: string;
+  newsoul: NewSoulStatus;
   history: string;
   career: string;
   stats: Stats;
@@ -26,6 +29,7 @@ export const DEFAULT_DATA: CharData = {
   appearance: "",
   constellation: "",
   species: "",
+  newsoul: "",
   history: "",
   career: "",
   stats: {
@@ -81,7 +85,7 @@ export function isStepComplete(step: number, data: CharData): boolean {
     case 1:
       return !!data.constellation;
     case 2:
-      return !!data.species;
+      return !!(data.species && data.newsoul);
     case 3:
       return !!data.history;
     case 4:
