@@ -1,13 +1,17 @@
 export type StatName =
-  | "Strength"
-  | "Dexterity"
-  | "Constitution"
-  | "Intelligence"
-  | "Wisdom"
-  | "Charisma";
+  | "PS"
+  | "PA"
+  | "PR"
+  | "MS"
+  | "MA"
+  | "MR"
+  | "SS"
+  | "SA"
+  | "SR";
 export type Stats = Record<StatName, number>;
 
 export type NewSoulStatus = "organic" | "newsoul" | "";
+export type StatsMethod = "standard" | "random" | "";
 
 export type CharData = {
   name: string;
@@ -20,6 +24,8 @@ export type CharData = {
   history: string;
   career: string;
   stats: Stats;
+  statsMethod: StatsMethod;
+  rolledValues: number[];
 };
 
 export const DEFAULT_DATA: CharData = {
@@ -32,13 +38,18 @@ export const DEFAULT_DATA: CharData = {
   newsoul: "",
   history: "",
   career: "",
+  statsMethod: "",
+  rolledValues: [],
   stats: {
-    Strength: 10,
-    Dexterity: 10,
-    Constitution: 10,
-    Intelligence: 10,
-    Wisdom: 10,
-    Charisma: 10,
+    PS: 0,
+    PA: 0,
+    PR: 0,
+    MS: 0,
+    MA: 0,
+    MR: 0,
+    SS: 0,
+    SA: 0,
+    SR: 0,
   },
 };
 
@@ -53,24 +64,28 @@ export const STEPS = [
   "Review",
 ];
 
-// idk
 export const STAT_NAMES: StatName[] = [
-  "Strength",
-  "Dexterity",
-  "Constitution",
-  "Intelligence",
-  "Wisdom",
-  "Charisma",
+  "PS",
+  "PA",
+  "PR",
+  "MS",
+  "MA",
+  "MR",
+  "SS",
+  "SA",
+  "SR",
 ];
 
-// idk
 export const STAT_ABBR: Record<StatName, string> = {
-  Strength: "STR",
-  Dexterity: "DEX",
-  Constitution: "CON",
-  Intelligence: "INT",
-  Wisdom: "WIS",
-  Charisma: "CHA",
+  PS: "Physical Strength",
+  PA: "Physical Agility",
+  PR: "Physical Resilience",
+  MS: "Mental Strength",
+  MA: "Mental Agility",
+  MR: "Mental Resilience",
+  SS: "Social Strength",
+  SA: "Social Agility",
+  SR: "Social Resilience",
 };
 
 export function statModifier(val: number): string {
@@ -90,6 +105,8 @@ export function isStepComplete(step: number, data: CharData): boolean {
       return !!data.history;
     case 4:
       return !!data.career;
+    case 5:
+      return STAT_NAMES.every((s) => data.stats[s] > 0);
     default:
       return true;
   }
