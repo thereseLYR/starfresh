@@ -9,7 +9,7 @@ import {
 } from "@/app/context/CharacterContext";
 import LandingScreen from "@/app/landing";
 import { STEPS, isStepComplete } from "@/app/lib/types";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import CareerStep from "@/app/steps/CareerStep";
 import CharacterInfoStep from "@/app/steps/CharacterInfoStep";
@@ -45,8 +45,51 @@ function CharacterCreatorShell() {
   const { step, setStep, data } = useCharacter();
   const canNavigate = !ENFORCE_VALIDATION || isStepComplete(step, data);
 
+  const [sweepPhase, setSweepPhase] = useState<"entering" | "exiting" | null>(null);
+  const [sweepDir, setSweepDir] = useState<"next" | "back">("next");
+  const pendingAction = useRef<(() => void) | null>(null);
+
+  const triggerSweep = useCallback((dir: "next" | "back", action: () => void) => {
+    if (sweepPhase) return;
+    pendingAction.current = action;
+    setSweepDir(dir);
+    setSweepPhase("entering");
+  }, [sweepPhase]);
+
+  const handleEnterEnd = useCallback(() => {
+    pendingAction.current?.();
+    pendingAction.current = null;
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    setSweepPhase("exiting");
+  }, []);
+
+  const handleExitEnd = useCallback(() => {
+    setSweepPhase(null);
+  }, []);
+
+  const sweepClass =
+    sweepPhase === "entering"
+      ? sweepDir === "next"
+        ? "animate-sweep-enter-right"
+        : "animate-sweep-enter-left"
+      : sweepDir === "next"
+        ? "animate-sweep-exit-left"
+        : "animate-sweep-exit-right";
+
   return (
     <div className="min-h-screen bg-dark-green flex flex-col">
+      {/* ── Sweep overlay ── */}
+      {sweepPhase && (
+        <div
+          className={`fixed inset-0 z-50 pointer-events-none ${sweepClass} ${
+            sweepDir === "next"
+              ? "bg-linear-to-r from-gold to-background"
+              : "bg-linear-to-l from-gold to-background"
+          }`}
+          onAnimationEnd={sweepPhase === "entering" ? handleEnterEnd : handleExitEnd}
+        />
+      )}
+
       {/* ── Header ── */}
       <header className="relative shrink-0 py-8 px-6 text-center">
         <p className="text-gold/60 text-xs tracking-[0.35em] uppercase mb-3">
@@ -72,14 +115,8 @@ function CharacterCreatorShell() {
       <CreatorFooter
         step={step}
         canNavigate={canNavigate}
-        onBack={() => {
-          setStep((s) => s - 1);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        onNext={() => {
-          setStep((s) => s + 1);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
+        onBack={() => triggerSweep("back", () => setStep((s) => s - 1))}
+        onNext={() => triggerSweep("next", () => setStep((s) => s + 1))}
         onSetStep={setStep}
       />
     </div>
