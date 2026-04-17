@@ -1,5 +1,5 @@
-import CharacterCreator from './character-creator'
+import LandingScreen from "./landing";
 
 export default function Home() {
-  return <CharacterCreator />
+  return <LandingScreen />;
 }

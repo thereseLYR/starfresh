@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const NAV_LINKS = [
   { label: "Home", href: "/", external: false },
-  { label: "Import Character", href: "/import-", external: false },
+  { label: "Import Character", href: "/character/import", external: false },
   { label: "About this Project", href: "/about", external: false },
   {
     label: "About Starot",

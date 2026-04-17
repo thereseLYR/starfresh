@@ -1,6 +1,101 @@
-import { useCharacter } from "@/app/context/CharacterContext";
+"use client";
+
 import StepIntro from "@/app/components/StepIntro";
-import { STAT_NAMES, STAT_ABBR, statModifier } from "@/app/lib/types";
+import { useCharacter } from "@/app/context/CharacterContext";
+import { CharData, STAT_ABBR, STAT_NAMES, statModifier } from "@/app/lib/types";
+import { useState } from "react";
+
+// ── Export helpers ────────────────────────────────────────────────────────────
+
+function toBase64Url(str: string): string {
+  return btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, hex) =>
+      String.fromCharCode(parseInt(hex, 16)),
+    ),
+  )
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
+}
+
+function makeShareUrl(data: CharData): string {
+  const header = toBase64Url(JSON.stringify({ alg: "none", typ: "JWT" }));
+  const payload = toBase64Url(JSON.stringify(data));
+  const token = `${header}.${payload}.`;
+  const base = typeof window !== "undefined" ? window.location.origin : "";
+  return `${base}/import?c=${token}`;
+}
+
+function downloadJson(data: CharData): void {
+  const filename = `Starfresh-PioneerData-${data.name || "character"}.json`;
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Export panel ──────────────────────────────────────────────────────────────
+
+function ExportPanel({ data }: { data: CharData }) {
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyUrl = async () => {
+    const url = shareUrl ?? makeShareUrl(data);
+    setShareUrl(url);
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="mt-10 pt-6 border-t border-gold/20 space-y-3">
+      <p className="text-gold/50 text-[10px] tracking-[0.3em] uppercase mb-4">
+        Export
+      </p>
+
+      {/* PDF */}
+      <button
+        onClick={() => window.print()}
+        className="btn-gold w-full py-3.5 border border-gold text-gold text-sm font-semibold tracking-[0.2em] uppercase rounded"
+      >
+        ✦ &nbsp;Export as PDF&nbsp; ✦
+      </button>
+
+      {/* URL */}
+      <div className="space-y-2">
+        <button
+          onClick={handleCopyUrl}
+          className="w-full py-3 border border-gold/30 text-gold/70 text-sm rounded hover:border-gold/55 hover:text-gold transition-colors"
+        >
+          {copied ? "Copied!" : "Export as URL"}
+        </button>
+        {shareUrl && (
+          <button
+            onClick={handleCopyUrl}
+            title="Click to copy"
+            className="w-full text-left px-3 py-2.5 rounded border border-gold/20 bg-panel/50 text-gold/45 text-[11px] font-mono break-all leading-relaxed hover:text-gold/65 hover:border-gold/35 transition-colors animate-expand-down"
+          >
+            {shareUrl}
+          </button>
+        )}
+      </div>
+
+      {/* JSON */}
+      <button
+        onClick={() => downloadJson(data)}
+        className="w-full py-3 border border-gold/30 text-gold/70 text-sm rounded hover:border-gold/55 hover:text-gold transition-colors"
+      >
+        Export as JSON
+      </button>
+    </div>
+  );
+}
 
 function ReviewRow({ label, value }: { label: string; value: string }) {
   return (
@@ -71,14 +166,7 @@ export default function ReviewStep() {
         </section>
       </div>
 
-      <div className="mt-10 pt-6 border-t border-gold/20">
-        <button
-          onClick={() => window.print()}
-          className="btn-gold w-full py-4 border border-gold text-gold font-semibold tracking-[0.2em] uppercase text-sm rounded"
-        >
-          ✦ &nbsp;Export as PDF&nbsp; ✦
-        </button>
-      </div>
+      <ExportPanel data={data} />
     </div>
   );
 }

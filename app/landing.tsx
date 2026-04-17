@@ -1,7 +1,7 @@
 import GoldDivider from "@/app/components/GoldDivider";
 import Link from "next/link";
 
-export default function LandingScreen({ onStart }: { onStart: () => void }) {
+export default function LandingScreen() {
   return (
     <div className="relative min-h-screen bg-dark-green flex flex-col items-center justify-center px-6">
       <div className="text-center max-w-xl">
@@ -31,12 +31,12 @@ export default function LandingScreen({ onStart }: { onStart: () => void }) {
             now!
           </p>
 
-          <button
-            onClick={onStart}
+          <Link
+            href="/character"
             className="btn-gold animate-fade-in px-10 py-3.5 border border-gold text-gold tracking-[0.25em] uppercase text-sm rounded"
           >
             Start your Journey
-          </button>
+          </Link>
         </div>
 
         <GoldDivider muted />

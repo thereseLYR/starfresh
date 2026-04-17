@@ -93,6 +93,30 @@ export function statModifier(val: number): string {
   return mod >= 0 ? `+${mod}` : `${mod}`;
 }
 
+export function isValidCharData(obj: unknown): obj is CharData {
+  if (!obj || typeof obj !== "object") return false;
+  const d = obj as Record<string, unknown>;
+  const stats = d.stats;
+  if (!stats || typeof stats !== "object") return false;
+  const s = stats as Record<string, unknown>;
+  return (
+    typeof d.name === "string" &&
+    typeof d.pronouns === "string" &&
+    typeof d.age === "string" &&
+    typeof d.appearance === "string" &&
+    typeof d.constellation === "string" &&
+    typeof d.species === "string" &&
+    (d.newsoul === "" || d.newsoul === "organic" || d.newsoul === "newsoul") &&
+    typeof d.history === "string" &&
+    typeof d.career === "string" &&
+    STAT_NAMES.every((k) => typeof s[k] === "number") &&
+    (d.statsMethod === "" ||
+      d.statsMethod === "standard" ||
+      d.statsMethod === "random") &&
+    Array.isArray(d.rolledValues)
+  );
+}
+
 export function isStepComplete(step: number, data: CharData): boolean {
   switch (step) {
     case 0:

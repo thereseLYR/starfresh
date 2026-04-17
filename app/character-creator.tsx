@@ -2,11 +2,7 @@
 
 import CreatorFooter from "@/app/components/CreatorFooter";
 import GoldDivider from "@/app/components/GoldDivider";
-import {
-  CharacterProvider,
-  useCharacter,
-} from "@/app/context/CharacterContext";
-import LandingScreen from "@/app/landing";
+import { useCharacter } from "@/app/context/CharacterContext";
 import { STEPS, isStepComplete } from "@/app/lib/types";
 import { useCallback, useRef, useState } from "react";
 
@@ -40,20 +36,25 @@ function renderStep(step: number) {
   }
 }
 
-function CharacterCreatorShell() {
+export default function CharacterCreatorShell() {
   const { step, setStep, data } = useCharacter();
   const canNavigate = !ENFORCE_VALIDATION || isStepComplete(step, data);
 
-  const [sweepPhase, setSweepPhase] = useState<"entering" | "exiting" | null>(null);
+  const [sweepPhase, setSweepPhase] = useState<"entering" | "exiting" | null>(
+    null,
+  );
   const [sweepDir, setSweepDir] = useState<"next" | "back">("next");
   const pendingAction = useRef<(() => void) | null>(null);
 
-  const triggerSweep = useCallback((dir: "next" | "back", action: () => void) => {
-    if (sweepPhase) return;
-    pendingAction.current = action;
-    setSweepDir(dir);
-    setSweepPhase("entering");
-  }, [sweepPhase]);
+  const triggerSweep = useCallback(
+    (dir: "next" | "back", action: () => void) => {
+      if (sweepPhase) return;
+      pendingAction.current = action;
+      setSweepDir(dir);
+      setSweepPhase("entering");
+    },
+    [sweepPhase],
+  );
 
   const handleEnterEnd = useCallback(() => {
     pendingAction.current?.();
@@ -77,7 +78,6 @@ function CharacterCreatorShell() {
 
   return (
     <div className="min-h-screen bg-dark-green flex flex-col">
-      {/* ── Sweep overlay ── */}
       {sweepPhase && (
         <div
           className={`fixed inset-0 z-50 pointer-events-none ${sweepClass} ${
@@ -85,10 +85,11 @@ function CharacterCreatorShell() {
               ? "bg-linear-to-r from-gold to-background"
               : "bg-linear-to-l from-gold to-background"
           }`}
-          onAnimationEnd={sweepPhase === "entering" ? handleEnterEnd : handleExitEnd}
+          onAnimationEnd={
+            sweepPhase === "entering" ? handleEnterEnd : handleExitEnd
+          }
         />
       )}
-
       {/* ── Header ── */}
       <header className="relative shrink-0 py-8 px-6 text-center">
         <p className="text-gold/60 text-xs tracking-[0.35em] uppercase mb-3">
@@ -116,17 +117,5 @@ function CharacterCreatorShell() {
         onSetStep={setStep}
       />
     </div>
-  );
-}
-
-export default function CharacterCreator() {
-  const [started, setStarted] = useState(false);
-
-  if (!started) return <LandingScreen onStart={() => setStarted(true)} />;
-
-  return (
-    <CharacterProvider>
-      <CharacterCreatorShell />
-    </CharacterProvider>
   );
 }
