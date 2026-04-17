@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import ImportScreen from "./ImportScreen";
 
 export const metadata: Metadata = {
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function ImportPage() {
-  return <ImportScreen />;
+  return (
+    <Suspense>
+      <ImportScreen />
+    </Suspense>
+  );
 }

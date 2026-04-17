@@ -23,7 +23,7 @@ function makeShareUrl(data: CharData): string {
   const payload = toBase64Url(JSON.stringify(data));
   const token = `${header}.${payload}.`;
   const base = typeof window !== "undefined" ? window.location.origin : "";
-  return `${base}/import?c=${token}`;
+  return `${base}/character/import?c=${token}`;
 }
 
 function downloadJson(data: CharData): void {

@@ -3,8 +3,8 @@
 import GoldDivider from "@/app/components/GoldDivider";
 import { useCharacter } from "@/app/context/CharacterContext";
 import { CharData, isValidCharData } from "@/app/lib/types";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 // ── JWT decode ────────────────────────────────────────────────────────────────
 
@@ -155,7 +155,31 @@ type Mode = "url" | "json" | null;
 export default function ImportScreen() {
   const { update, setStep } = useCharacter();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [mode, setMode] = useState<Mode>(null);
+  const [resolving, setResolving] = useState(() => !!searchParams.get("c"));
+
+  useEffect(() => {
+    const c = searchParams.get("c");
+    if (!c) return;
+
+    let payload: unknown;
+    try {
+      payload = decodeJwt(c);
+    } catch {
+      setResolving(false);
+      return;
+    }
+
+    if (!isValidCharData(payload)) {
+      setResolving(false);
+      return;
+    }
+
+    update(payload);
+    setStep(6);
+    router.push("/character");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSuccess = (data: CharData) => {
     update(data);
@@ -164,6 +188,16 @@ export default function ImportScreen() {
   };
 
   const toggle = (m: Mode) => setMode((prev) => (prev === m ? null : m));
+
+  if (resolving) {
+    return (
+      <div className="min-h-screen bg-dark-green flex items-center justify-center">
+        <p className="text-gold/50 text-sm tracking-widest uppercase animate-pulse">
+          Loading character…
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-dark-green flex flex-col">
