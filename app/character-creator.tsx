@@ -2,7 +2,6 @@
 
 import CreatorFooter from "@/app/components/CreatorFooter";
 import GoldDivider from "@/app/components/GoldDivider";
-import ThemeToggle from "@/app/components/ThemeToggle";
 import {
   CharacterProvider,
   useCharacter,
@@ -100,9 +99,6 @@ function CharacterCreatorShell() {
         </h1>
         <div className="mt-4">
           <GoldDivider muted />
-        </div>
-        <div className="absolute top-4 right-4">
-          <ThemeToggle />
         </div>
       </header>
 

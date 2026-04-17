@@ -1,13 +1,9 @@
 import GoldDivider from "@/app/components/GoldDivider";
-import ThemeToggle from "@/app/components/ThemeToggle";
 import Link from "next/link";
 
 export default function LandingScreen({ onStart }: { onStart: () => void }) {
   return (
     <div className="relative min-h-screen bg-dark-green flex flex-col items-center justify-center px-6">
-      <div className="absolute top-4 right-4">
-        <ThemeToggle />
-      </div>
       <div className="text-center max-w-xl">
         <GoldDivider muted />
 

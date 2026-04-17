@@ -74,6 +74,15 @@ html.light {
   }
 }
 
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -86,6 +95,7 @@ html.light {
 }
 
 @theme {
+  --animate-slide-in-left: slide-in-left 0.28s ease-out forwards;
   --animate-fade-in: fade-in 0.9s ease-out 0.3s both;
   --animate-expand-down: expand-down 0.4s ease-out forwards;
   --animate-sweep-enter-right: sweep-enter-right 0.32s ease-in forwards;

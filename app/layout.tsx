@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Sora } from "next/font/google";
+import SiteNav from "@/app/components/SiteNav";
 import { ThemeProvider } from "@/app/context/ThemeContext";
+import type { Metadata } from "next";
+import { Sora } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const nobleType = localFont({
@@ -17,8 +18,9 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "Character Creator",
-  description: "Build your character",
+  title: "Starfresh · Character Creator",
+  description:
+    "Build your character for Starfresh — choose your species, faction, constellation, history, career, and stats.",
 };
 
 export default function RootLayout({
@@ -32,7 +34,10 @@ export default function RootLayout({
       className={`${nobleType.variable} ${sora.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <SiteNav />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
