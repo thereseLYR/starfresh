@@ -1,20 +1,17 @@
 import CardDeck, { DeckCard } from '@/app/components/CardDeck'
 import StepIntro from '@/app/components/StepIntro'
 import { useCharacter } from '@/app/context/CharacterContext'
-import { CAREERS, SingleCardData } from '@/app/lib/gameData'
-
-// ── Card transform ────────────────────────────────────────────────────────────
+import { useGameData } from '@/app/context/GameDataContext'
+import { SingleCardData } from '@/app/lib/gameData'
 
 function toCard({ name, flavourText, symbol, body }: SingleCardData): DeckCard {
   return { name, flavourText, symbol, body }
 }
 
-const DECK_CARDS: DeckCard[] = CAREERS.map(toCard)
-
-// ── Step component ────────────────────────────────────────────────────────────
-
 export default function CareerStep() {
   const { data, update } = useCharacter()
+  const { careers } = useGameData()
+  const cards = careers.map(toCard)
 
   return (
     <>
@@ -23,7 +20,7 @@ export default function CareerStep() {
         every encounter. What path have you walked?
       </StepIntro>
       <CardDeck
-        cards={DECK_CARDS}
+        cards={cards}
         selected={data.career}
         onSelect={(v) => update({ career: v ?? '' })}
       />

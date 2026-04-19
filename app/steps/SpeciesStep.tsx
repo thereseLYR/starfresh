@@ -2,43 +2,27 @@ import CardDeck, { DeckCard } from "@/app/components/CardDeck";
 import GoldDivider from "@/app/components/GoldDivider";
 import StepIntro from "@/app/components/StepIntro";
 import { useCharacter } from "@/app/context/CharacterContext";
-import { SingleCardData, SPECIES } from "@/app/lib/gameData";
+import { useGameData } from "@/app/context/GameDataContext";
+import { SingleCardData } from "@/app/lib/gameData";
 import { NewSoulStatus } from "@/app/lib/types";
 
 // ── Card transform ────────────────────────────────────────────────────────────
 
-function toCard({
-  name,
-  flavourText,
-  imageUrl,
-  body,
-}: SingleCardData): DeckCard {
+function toCard({ name, flavourText, imageUrl, body }: SingleCardData): DeckCard {
   return { name, flavourText, imageUrl, body };
 }
 
-// ── Faction groupings ─────────────────────────────────────────────────────────
-
-const FACTIONS: { name: string; species: string[] }[] = [
-  {
-    name: "January Conglomerate",
-    species: ["Terau", "Ranau", "Kilerau", "Yvetrau"],
-  },
-  {
-    name: "Wyertian Caliphate",
-    species: ["Gilean"],
-  },
-  {
-    name: "Wurefon Empire",
-    species: ["Wurefon", "Qutalon", "Seeledon"],
-  },
+// Faction order controls display sequence; unlisted factions appear at the end.
+const FACTION_ORDER = [
+  "January Conglomerate",
+  "Wyertian Caliphate",
+  "Wurefon Empire",
 ];
 
-const speciesByName = Object.fromEntries(SPECIES.map((s) => [s.name, s]));
-
-const FACTION_DECKS = FACTIONS.map((f) => ({
-  ...f,
-  cards: f.species.map((n) => toCard(speciesByName[n])).filter(Boolean),
-}));
+function parseFaction(body: string | undefined): string {
+  const match = body?.match(/^Faction: (.+)/m);
+  return match ? match[1].trim() : "Other";
+}
 
 // ── Newsoul info ──────────────────────────────────────────────────────────────
 
@@ -126,6 +110,12 @@ function StatusDetail({ status }: { status: "organic" | "newsoul" }) {
 
 export default function SpeciesStep() {
   const { data, update } = useCharacter();
+  const { species } = useGameData();
+
+  const factionDecks = FACTION_ORDER.map((faction) => ({
+    name: faction,
+    cards: species.filter((s) => parseFaction(s.body) === faction).map(toCard),
+  })).filter((f) => f.cards.length > 0);
 
   return (
     <>
@@ -167,7 +157,7 @@ export default function SpeciesStep() {
       </div>
 
       <div className="my-8 space-y-8">
-        {FACTION_DECKS.map((faction) => (
+        {factionDecks.map((faction) => (
           <div key={faction.name}>
             <p className="text-gold/50 text-[10px] tracking-[0.3em] uppercase mb-3">
               {faction.name}
